@@ -15,8 +15,12 @@ export const siteConfig = {
    */
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://akram-tanany-portfolio.vercel.app").replace(/\/+$/, ""),
 
-  /** Social card for every page except project pages (which use their cover). 1200 × 630. */
-  ogImage: { src: "/og-image.png", width: 1200, height: 630 },
+  /**
+   * Social card for every page except project pages (which use their cover):
+   * the portrait, whole and centred, on a blurred copy of itself. 1200 × 630
+   * JPEG, kept under 300 KB so WhatsApp shows it.
+   */
+  ogImage: { src: "/og-image.jpg", width: 1200, height: 630, type: "image/jpeg" },
 
   name: { en: "Akram Ayman", ar: "أكرم أيمن" } satisfies Localized,
   firstName: { en: "Akram", ar: "أكرم" } satisfies Localized,

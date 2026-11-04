@@ -42,6 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
     url: siteConfig.ogImage.src,
     width: siteConfig.ogImage.width,
     height: siteConfig.ogImage.height,
+    type: siteConfig.ogImage.type,
     alt: `${name} — ${pick(siteConfig.role, locale)}`,
   };
 

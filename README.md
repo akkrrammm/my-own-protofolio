@@ -16,7 +16,7 @@ npm run typecheck
 | --- | --- |
 | Name, role, email, WhatsApp, phone, LinkedIn, GitHub, availability, portrait | `config/site.ts` |
 | Site URL (canonical, hreflang, sitemap, robots, JSON-LD) | `NEXT_PUBLIC_SITE_URL` — defaults to `https://akram-tanany-portfolio.vercel.app` |
-| Social card (Open Graph / Twitter), 1200×630 | `public/og-image.png` — replace the file to change it |
+| Social card (Open Graph / Twitter), 1200×630 | `public/og-image.jpg` — replace the file to change it (keep it under 300 KB for WhatsApp) |
 | Projects (Selected Works + case-study pages + sitemap) | `data/projects.ts` |
 | Skills & technologies | `data/skills.ts` |
 | All interface copy, About text, stats labels, process steps | `i18n/dictionaries/en.ts` and `ar.ts` |
