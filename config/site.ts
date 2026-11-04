@@ -47,12 +47,11 @@ export const siteConfig = {
   },
 
   /**
-   * Contact form delivery. Set NEXT_PUBLIC_CONTACT_ENDPOINT to any endpoint
-   * that accepts a JSON POST (Formspree, Web3Forms, Getform, or your own API)
-   * and the form submits there. Left empty, the form opens the visitor's
-   * email app with the message pre-filled instead — nothing is faked.
+   * Where the contact form posts (Formspree). Messages arrive in the inbox of
+   * the Formspree account that owns the form. NEXT_PUBLIC_CONTACT_ENDPOINT
+   * overrides it with another endpoint that answers JSON the same way.
    */
-  contactEndpoint: process.env.NEXT_PUBLIC_CONTACT_ENDPOINT || "",
+  contactEndpoint: process.env.NEXT_PUBLIC_CONTACT_ENDPOINT || "https://formspree.io/f/mvkkdwpl",
 };
 
 export type SiteConfig = typeof siteConfig;

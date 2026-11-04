@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, CircleAlert, LoaderCircle, Mail, Send } from "lucide-react";
+import { Check, CircleAlert, LoaderCircle, Send } from "lucide-react";
 import { AnimatePresence, m } from "motion/react";
 import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -9,16 +9,17 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
 
 type Field = "name" | "email" | "message";
-type Status = "idle" | "submitting" | "sent" | "mailto" | "error";
+type Status = "idle" | "submitting" | "sent" | "error";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const MIN_MESSAGE = 20;
 
 /**
- * Validated contact form with two honest delivery modes:
- * - NEXT_PUBLIC_CONTACT_ENDPOINT set → JSON POST there; success and failure
- *   reflect the real response.
- * - Not set → opens the visitor's email app with the message pre-filled.
+ * Validated contact form, sent to Formspree with fetch — no page reload.
+ * The request carries the form's own fields (name, email, projectType,
+ * message, plus Formspree's _subject and _gotcha honeypot) and asks for a
+ * JSON answer, so success and failure reflect the real response. On
+ * success the fields are cleared and a confirmation replaces the form.
  */
 export function ContactForm() {
   const { t, locale } = useI18n();
@@ -26,8 +27,9 @@ export function ContactForm() {
   const uid = useId();
   const endpoint = siteConfig.contactEndpoint;
   const email = siteConfig.contact.email;
+  const empty = { name: "", email: "", type: f.types[0], message: "" };
 
-  const [values, setValues] = useState({ name: "", email: "", type: f.types[0], message: "" });
+  const [values, setValues] = useState(empty);
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [attempted, setAttempted] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
@@ -62,38 +64,30 @@ export function ContactForm() {
       return;
     }
 
-    const payload = {
-      name: values.name.trim(),
-      email: values.email.trim(),
-      projectType: values.type,
-      message: values.message.trim(),
-    };
-
-    if (!endpoint) {
-      const subject = `${payload.projectType} — ${payload.name}`;
-      const body = `${payload.message}\n\n— ${payload.name}\n${payload.email}`;
-      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      setStatus("mailto");
-      return;
-    }
+    // The form's named fields, trimmed (FormData picks up every input's `name`).
+    const data = new FormData(event.currentTarget);
+    for (const key of ["name", "email", "message"] as const) data.set(key, values[key].trim());
 
     setStatus("submitting");
     try {
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ ...payload, locale }),
+        headers: { Accept: "application/json" },
+        body: data,
       });
-      if (!response.ok) throw new Error(`Contact endpoint responded ${response.status}`);
-      setStatus("sent");
-      setValues({ name: "", email: "", type: f.types[0], message: "" });
+      // Formspree answers { ok: true } or { errors: [...] }.
+      const result = (await response.json().catch(() => ({}))) as { ok?: boolean; errors?: unknown[] };
+      if (!response.ok || result.errors?.length) throw new Error(`Contact endpoint responded ${response.status}`);
+      setValues(empty);
+      setErrors({});
       setAttempted(false);
+      setStatus("sent");
     } catch {
       setStatus("error");
     }
   }
 
-  const done = status === "sent" || status === "mailto";
+  const done = status === "sent";
   const errorCount = Object.keys(errors).length;
 
   return (
@@ -115,14 +109,10 @@ export function ContactForm() {
               transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.1 }}
               className="grid size-16 place-items-center rounded-full bg-flame text-ink shadow-[0_0_60px_-10px_rgb(255_152_0/0.8)]"
             >
-              {status === "sent" ? <Check className="size-7" aria-hidden /> : <Mail className="size-7" aria-hidden />}
+              <Check className="size-7" aria-hidden />
             </m.span>
-            <h3 className="font-display text-3xl leading-heading font-semibold text-cream sm:text-4xl">
-              {status === "sent" ? f.success.title : f.mailSuccess.title}
-            </h3>
-            <p className="max-w-md text-lg leading-relaxed text-sand">
-              {status === "sent" ? f.success.text : <WithEmail text={f.mailSuccess.text} email={email} />}
-            </p>
+            <h3 className="font-display text-3xl leading-heading font-semibold text-cream sm:text-4xl">{f.success.title}</h3>
+            <p className="max-w-md text-lg leading-relaxed text-sand">{f.success.text}</p>
             <button
               type="button"
               onClick={() => setStatus("idle")}
@@ -134,6 +124,8 @@ export function ContactForm() {
         ) : (
           <m.form
             key="form"
+            action={endpoint}
+            method="POST"
             noValidate
             onSubmit={onSubmit}
             initial={{ opacity: 0, y: 16 }}
@@ -143,6 +135,12 @@ export function ContactForm() {
             aria-describedby={attempted && errorCount > 0 ? `${uid}-summary` : undefined}
             className="space-y-8"
           >
+            {/* Formspree extras: the email subject, the page language, and a
+                honeypot field that only bots fill in. */}
+            <input type="hidden" name="_subject" value={f.subject} />
+            <input type="hidden" name="language" value={locale} />
+            <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
+
             <div className="grid gap-8 sm:grid-cols-2">
               <TextField
                 id={`${uid}-name`}
@@ -244,22 +242,19 @@ export function ContactForm() {
               )}
             </div>
 
-            <div className="flex flex-col-reverse items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
-              {!endpoint && <p className="max-w-xs text-xs leading-relaxed text-dust">{f.mailNote}</p>}
+            <div className="flex">
               <button
                 type="submit"
                 disabled={status === "submitting"}
                 className="group relative isolate ms-auto inline-flex items-center gap-4 overflow-hidden rounded-full bg-flame py-2 ps-6 pe-2 font-medium text-ink transition-shadow duration-500 hover:shadow-[0_14px_44px_-12px_rgb(255_152_0/0.75)] disabled:cursor-wait disabled:opacity-80"
               >
                 <span aria-hidden className="absolute inset-0 -z-10 translate-y-[101%] rounded-[inherit] bg-cream transition-transform duration-500 ease-expo group-hover:translate-y-0" />
-                {status === "submitting" ? f.sending : status === "error" ? f.retry : endpoint ? f.submit : f.submitMail}
+                {status === "submitting" ? f.sending : status === "error" ? f.retry : f.submit}
                 <span aria-hidden className="grid size-10 place-items-center rounded-full bg-ink text-flame">
                   {status === "submitting" ? (
                     <LoaderCircle className="size-4 animate-spin" />
-                  ) : endpoint ? (
-                    <Send className="size-4 transition-transform duration-500 ease-expo group-hover:-rotate-12 rtl:-scale-x-100" />
                   ) : (
-                    <Mail className="size-4" />
+                    <Send className="size-4 transition-transform duration-500 ease-expo group-hover:-rotate-12 rtl:-scale-x-100" />
                   )}
                 </span>
               </button>
@@ -306,15 +301,15 @@ function TextField({ id, label, error, input }: { id: string; label: string; err
   );
 }
 
-/** Renders a dictionary sentence with its {email} placeholder as a mailto link. */
+/** Renders a dictionary sentence with its {email} placeholder as the address, set left-to-right. */
 function WithEmail({ text, email }: { text: string; email: string }) {
   const [before, after] = format(text, { email: "\u0000" }).split("\u0000");
   return (
     <>
       {before}
-      <a href={`mailto:${email}`} dir="ltr" className="font-medium text-flame underline decoration-flame/40 underline-offset-4">
+      <bdi dir="ltr" className="font-medium text-flame">
         {email}
-      </a>
+      </bdi>
       {after}
     </>
   );

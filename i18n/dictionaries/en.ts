@@ -190,9 +190,9 @@ const en = {
       message: "Project details",
       messagePlaceholder: "A few lines about the idea, goals, and timeline…",
       submit: "Send message",
-      submitMail: "Continue in email app",
       sending: "Sending…",
-      mailNote: "This opens your email app with the message ready — nothing is stored on this site.",
+      /** Subject line of the email Formspree delivers to you. */
+      subject: "New message from your portfolio (EN)",
       errors: {
         name: "Please enter your name.",
         email: "Please enter a valid email address.",
@@ -200,12 +200,8 @@ const en = {
         summary: "Please fix the highlighted fields.",
       },
       success: {
-        title: "Message sent.",
-        text: "Thank you! I'll reply as soon as I can.",
-      },
-      mailSuccess: {
-        title: "Your email app should be open.",
-        text: "Your message is ready to send. If nothing opened, email me directly at {email}.",
+        title: "Sent successfully.",
+        text: "Thank you! Your message is on its way — I'll reply as soon as I can.",
       },
       failure: {
         title: "That didn't go through.",

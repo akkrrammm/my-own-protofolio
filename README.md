@@ -51,7 +51,7 @@ Any optional field can be left out — the layout adapts, and case-study section
 
 ## Contact form
 
-Without configuration the form validates the message and then opens the visitor's email app with everything pre-filled (nothing is faked or stored). To receive submissions directly, set `NEXT_PUBLIC_CONTACT_ENDPOINT` (see `.env.example`) to any endpoint that accepts a JSON POST of `{ name, email, projectType, message, locale }`.
+The form is sent to Formspree (`https://formspree.io/f/mvkkdwpl`, set in `config/site.ts` and overridable with `NEXT_PUBLIC_CONTACT_ENDPOINT`). It validates on the client, then `fetch`es a POST of the form's fields — `name`, `email`, `projectType`, `message`, plus `_subject`, `language` and the `_gotcha` honeypot — with `Accept: application/json`. Success clears the form and shows a confirmation; a failure shows an error. Neither reloads the page. Messages arrive in the inbox of the Formspree account that owns the form.
 
 ## Languages
 
