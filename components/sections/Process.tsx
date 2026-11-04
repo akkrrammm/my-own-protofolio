@@ -11,7 +11,7 @@ export async function Process() {
   const rtl = localeSettings[locale].dir === "rtl";
 
   return (
-    <section id="process" aria-labelledby="process-title" className="relative isolate py-24 sm:py-32 lg:py-40">
+    <section id="process" aria-labelledby="process-title" className="relative isolate py-20 sm:py-24 lg:py-28">
       <div className="container-x grid gap-16 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
@@ -19,7 +19,7 @@ export async function Process() {
             <LineReveal
               id="process-title"
               lines={t.process.titleLines}
-              className="mt-12 font-display text-[clamp(2.75rem,7vw,6.25rem)] leading-display font-semibold text-cream"
+              className="mt-8 font-display text-[clamp(2.75rem,6.4vw,5.75rem)] leading-display font-semibold text-cream lg:mt-10"
             />
             <Reveal delay={0.1}>
               <p className="mt-8 max-w-sm text-lg leading-relaxed text-sand">{t.process.lead}</p>
@@ -45,7 +45,7 @@ export async function Process() {
           </div>
         </div>
 
-        <div className="lg:col-span-7 lg:pt-24">
+        <div className="lg:col-span-7 lg:pt-16">
           <ProcessTimeline steps={t.process.steps} />
         </div>
       </div>

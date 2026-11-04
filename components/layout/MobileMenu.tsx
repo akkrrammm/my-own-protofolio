@@ -9,7 +9,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { NAV_ITEMS, navHref, navLabel, type NavId } from "@/components/layout/nav";
 import { siteConfig } from "@/config/site";
-import { pad } from "@/lib/projects";
+import { pad } from "@/lib/pad";
 import { cn } from "@/lib/cn";
 
 const EASE = [0.76, 0, 0.24, 1] as const;

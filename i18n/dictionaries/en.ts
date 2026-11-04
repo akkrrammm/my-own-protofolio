@@ -1,15 +1,13 @@
 /**
  * English interface copy. `{braces}` mark the accent words that render in
- * the orange italic serif (see components/ui/Accent.tsx).
- *
- * Lines marked ✏️ are placeholders written for you to replace with your
- * own words — keep ar.ts in step when you edit them.
+ * the orange italic serif (see components/ui/Accent.tsx), and `{name}`-style
+ * keys are filled in by the component. Keep ar.ts in step when you edit.
  */
 const en = {
   meta: {
     title: "Web Developer — Digital Experiences",
     description:
-      "Portfolio of a web developer building modern, high-performance websites that combine thoughtful design, smooth interactions, and powerful technology.",
+      "Web developer in Egypt building fast, bilingual (Arabic & English) websites with Next.js, TypeScript and Tailwind CSS — for clinics, manufacturers and construction companies.",
   },
   skipToContent: "Skip to content",
 
@@ -36,7 +34,7 @@ const en = {
     primaryCta: "Explore My Work",
     secondaryCta: "Let's Talk",
     scroll: "Scroll",
-    portraitAlt: "Illustrated portrait of {name}",
+    portraitAlt: "Illustrated portrait of {name} in a black hoodie against an orange background",
     stamp: "Web Developer ✦ Creative Coder ✦ ",
     outline: "Developer",
     index: "Portfolio",
@@ -44,26 +42,28 @@ const en = {
 
   marquee: ["Design", "Develop", "Deploy", "Performance", "Accessibility", "Motion", "Details"],
 
+  stats: {
+    label: "At a glance",
+    /** In order: projects, industries, languages, responsive (numbers live in components/sections/Stats.tsx). */
+    items: ["Projects delivered", "Industries served", "Languages per site · EN & AR", "Responsive & mobile-first"],
+  },
+
   about: {
     label: "About",
     titleLines: ["More Than Just", "Writing {Code.}"],
-    // ✏️ Your introduction.
     intro:
       "I'm {firstName} — a web developer who enjoys transforming ideas into visually engaging, functional digital experiences.",
     blocks: [
       {
         label: "Background",
-        // ✏️ Your professional background.
-        text: "Add your story here: where you started, what you have worked on, and the kind of projects you focus on today.",
+        text: "I'm a web developer based in Egypt, building fast, bilingual (Arabic & English) websites with Next.js, TypeScript and Tailwind CSS. My work spans healthcare, manufacturing and construction: from clinic sites with online booking for doctors, to product catalogs and quote-request flows for industrial companies. Today I focus on websites that look premium, load fast and help businesses win clients.",
       },
       {
         label: "Approach",
-        // ✏️ Your approach to development.
         text: "I treat every website as a product, not a page. I start from what it needs to achieve, design the experience around it, then build it to be fast, accessible, and easy to grow.",
       },
       {
         label: "Philosophy",
-        // ✏️ Your working philosophy.
         text: "Good work is a conversation. I keep clients close to the process, explain the trade-offs, and sweat the small details people feel but rarely notice.",
       },
     ],
@@ -90,20 +90,31 @@ const en = {
     details: "Project details",
     moreTitle: "More Projects",
     empty: "New work is on the way — check back soon.",
+    filters: {
+      label: "Filter projects by industry",
+      all: "All",
+      healthcare: "Healthcare",
+      industrial: "Industrial",
+      construction: "Construction",
+      shown: "Projects shown: {count}",
+    },
   },
 
   project: {
     back: "All works",
     overviewLabel: "Overview",
-    challenge: "The Challenge",
-    approach: "The Approach",
-    outcome: "The Outcome",
-    role: "Role",
+    client: "Client",
+    industry: "Industry",
+    liveSite: "Live site",
+    challenge: "The challenge",
+    solution: "The solution & key features",
+    features: "Key features",
     year: "Year",
     category: "Category",
     stack: "Stack",
-    links: "Links",
-    gallery: "Gallery",
+    gallery: "Screenshots",
+    screenshotAlt: "{title} website — {label}",
+    homepage: "homepage",
     next: "Next project",
     visit: "Visit website",
     sampleBanner:
@@ -155,6 +166,9 @@ const en = {
     label: "Contact",
     titleLines: ["Have an Idea?", "Let's Build", "Something {Great.}"],
     lead: "Tell me about your project, timeline, and goals. I'll get back to you with next steps.",
+    bookCall: "Book a free 15-min call",
+    bookCallHint: "Opens WhatsApp with a message ready to send",
+    bookCallMessage: "Hi Akram, I saw your portfolio and I'd like to book a free 15-min call about a website.",
     direct: "Prefer a direct line?",
     channels: {
       email: "Email",

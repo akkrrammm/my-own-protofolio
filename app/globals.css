@@ -116,6 +116,10 @@
   --font-heading: var(--font-alexandria);
   --font-body: var(--font-plex-arabic), var(--font-alexandria);
   --font-accent: var(--font-alexandria);
+  /* Labels: Plex's Arabic-only unicode-range takes the Arabic glyphs and
+     Latin falls through to the mono face. (Mono first would hand Arabic to
+     its local fallback alias instead.) */
+  --font-code: var(--font-plex-arabic), var(--font-jetbrains);
 }
 
 @layer base {

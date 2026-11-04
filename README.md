@@ -15,16 +15,16 @@ npm run typecheck
 | What | File |
 | --- | --- |
 | Name, role, email, WhatsApp, phone, LinkedIn, GitHub, availability, portrait | `config/site.ts` |
+| Site URL (canonical, hreflang, sitemap, robots, JSON-LD) | `NEXT_PUBLIC_SITE_URL` — defaults to `https://my-own-protofolio.vercel.app` |
+| Social card (Open Graph / Twitter), 1200×630 | `public/og-image.png` — replace the file to change it |
 | Projects (Selected Works + case-study pages + sitemap) | `data/projects.ts` |
 | Skills & technologies | `data/skills.ts` |
-| All interface copy, About text, process steps | `i18n/dictionaries/en.ts` and `ar.ts` |
+| All interface copy, About text, stats labels, process steps | `i18n/dictionaries/en.ts` and `ar.ts` |
 | Colours, fonts, animation tokens | `app/globals.css` |
-
-Lines marked ✏️ in those files are placeholders written for you to replace.
 
 ## Adding a project
 
-1. Put screenshots in `public/images/projects/<slug>/` (16:10 works best, e.g. 1600×1000).
+1. Put screenshots in `public/images/projects/<slug>/` (16:10 works best, e.g. 1920×1200), plus a 1200×630 `og.jpg` crop of the cover for social sharing (optional — the cover is used without it).
 2. Add one object to the `projects` array in `data/projects.ts`:
 
 ```ts
@@ -33,19 +33,21 @@ Lines marked ✏️ in those files are placeholders written for you to replace.
   slug: "my-site",                       // → /en/work/my-site
   title: "My Site",
   category: { en: "E-commerce", ar: "متجر إلكتروني" },
+  industry: "industrial",                // healthcare | industrial | construction — drives the filter chips
+  client: { en: "Who it was for", ar: "لمن صُمّم" },        // optional
   description: { en: "One or two sentences.", ar: "جملة أو جملتان." },
-  coverImage: "/images/projects/my-site/cover.png",
-  galleryImages: ["/images/projects/my-site/home.png"], // optional
+  coverImage: "/images/projects/my-site/cover.webp",
+  galleryImages: [{ src: "/images/projects/my-site/home.webp", label: { en: "products page", ar: "صفحة المنتجات" } }], // optional; label → alt text
   technologies: ["Next.js", "Tailwind CSS"],
   liveUrl: "https://my-site.com",        // optional
   githubUrl: "https://github.com/me/my-site", // optional
   featured: true,                        // large editorial row
   displayOrder: 1,
-  caseStudy: { overview: "...", challenge: "...", approach: "...", outcome: "..." }, // optional
+  caseStudy: { challenge: { en, ar }, solution: { en, ar }, features: { en: [...], ar: [...] } }, // optional
 }
 ```
 
-Any optional field can be left out — the layout adapts. To remove a project, delete its object and its image folder. `featured: true` projects get the large alternating rows; the rest fill the offset grid below them. Mark placeholder content with `sample: true` to show a "Sample" badge and keep it out of search engines.
+Any optional field can be left out — the layout adapts, and case-study sections without content are not rendered. To remove a project, delete its object and its image folder. `featured: true` projects get the large alternating rows; the rest fill the offset grid below them. The home-page stats count projects and industries from this file. Mark placeholder content with `sample: true` to show a "Sample" badge and keep it out of search engines.
 
 ## Contact form
 

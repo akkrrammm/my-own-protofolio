@@ -1,14 +1,22 @@
 import type { Localized } from "@/i18n/config";
 
 /**
- * ✏️ Your identity and contact details — edit this file first.
+ * Identity and contact details.
  *
  * Every contact channel is optional: leave a value as "" and its link
  * disappears everywhere (contact section, mobile menu, footer).
  */
 export const siteConfig = {
-  /** Production URL, used for canonical links, the sitemap and social cards. */
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+  /**
+   * Production URL, used for metadataBase, canonical links, hreflang, the
+   * sitemap, robots.txt and JSON-LD. To move to a custom domain, set
+   * NEXT_PUBLIC_SITE_URL (e.g. in Vercel's environment variables) — nothing
+   * else needs to change.
+   */
+  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://my-own-protofolio.vercel.app").replace(/\/+$/, ""),
+
+  /** Social card for every page except project pages (which use their cover). 1200 × 630. */
+  ogImage: { src: "/og-image.png", width: 1200, height: 630 },
 
   name: { en: "Akram Ayman", ar: "أكرم أيمن" } satisfies Localized,
   firstName: { en: "Akram", ar: "أكرم" } satisfies Localized,

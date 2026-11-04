@@ -55,7 +55,6 @@ export function ProjectMedia({
     <Link
       href={href}
       transitionTypes={["page-forward"]}
-      aria-label={`${viewLabel}: ${alt}`}
       onPointerEnter={(event) => {
         if (event.pointerType !== "mouse") return;
         const rect = event.currentTarget.getBoundingClientRect();
@@ -67,6 +66,8 @@ export function ProjectMedia({
       onPointerMove={onPointerMove}
       className={cn("group/media relative block rounded-[20px] pointer-fine:cursor-none", className)}
     >
+      {/* Accessible name: "View: <screenshot description>" */}
+      <span className="sr-only">{viewLabel}: </span>
       {/* The cover's own colour, glowing softly behind it */}
       <span
         aria-hidden
@@ -95,7 +96,7 @@ export function ProjectMedia({
             >
               <Image
                 src={src}
-                alt=""
+                alt={alt}
                 fill
                 sizes={sizes}
                 className="object-cover object-top transition-transform duration-[1200ms] ease-expo group-hover/media:scale-[1.045]"

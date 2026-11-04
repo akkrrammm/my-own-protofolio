@@ -4,7 +4,7 @@ import { Compass, CodeXml, PenTool, Rocket } from "lucide-react";
 import { m, useScroll, useSpring } from "motion/react";
 import { useRef } from "react";
 import { Reveal } from "@/components/ui/Reveal";
-import { pad } from "@/lib/projects";
+import { pad } from "@/lib/pad";
 
 const ICONS = [Compass, PenTool, CodeXml, Rocket];
 

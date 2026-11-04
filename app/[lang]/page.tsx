@@ -5,6 +5,7 @@ import { Contact } from "@/components/sections/Contact";
 import { Marquee } from "@/components/sections/Marquee";
 import { Process } from "@/components/sections/Process";
 import { Skills } from "@/components/sections/Skills";
+import { Stats } from "@/components/sections/Stats";
 import { Work } from "@/components/sections/Work";
 import { pageTransition } from "@/lib/transitions";
 
@@ -13,6 +14,7 @@ export default function HomePage() {
     <ViewTransition {...pageTransition}>
       <div>
         <Hero />
+        <Stats />
         <Marquee />
         <About />
         <Work />

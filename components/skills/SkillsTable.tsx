@@ -4,7 +4,7 @@ import { m } from "motion/react";
 import { useState, type PointerEvent } from "react";
 import type { Skill, SkillCategoryId } from "@/data/skills";
 import { cn } from "@/lib/cn";
-import { pad } from "@/lib/projects";
+import { pad } from "@/lib/pad";
 
 export interface SkillGroup {
   id: SkillCategoryId;

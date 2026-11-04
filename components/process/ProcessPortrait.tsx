@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
-import { pad } from "@/lib/projects";
+import { pad } from "@/lib/pad";
 
 const SLICES = 4;
 /** Where each slice waits before its step, alternating so the face reads as scattered. */

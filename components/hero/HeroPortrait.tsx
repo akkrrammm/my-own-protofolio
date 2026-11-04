@@ -149,9 +149,11 @@ export function HeroPortrait({ alt, stamp, latin }: { alt: string; stamp: string
         </span>
       </m.div>
 
-      {/* Rotating stamp — high on the frame on small screens, where the
-          headline overlaps the portrait's lower edge */}
-      <div className="absolute top-[38%] -start-5 z-10 w-24 sm:-start-10 sm:w-32 lg:top-auto lg:bottom-[4%]">
+      {/* Rotating stamp — always over the artwork's background, never the
+          face: the top corner on phones (the headline covers the lower edge),
+          the striped side on tablets (the code card holds the other corner),
+          and the lower corner beside the hoodie on desktop. */}
+      <div className="absolute top-[3%] -start-6 z-10 w-20 sm:start-auto sm:top-[18%] sm:-end-8 sm:w-24 lg:end-auto lg:top-auto lg:bottom-[4%] lg:-start-14 lg:w-28">
         <div className="fade-in" style={delay(1000)}>
           <RotatingStamp id="hero-stamp" text={stamp} latin={latin} className="rounded-full bg-ink/80 shadow-[0_20px_50px_-20px_rgb(0_0_0/0.9)]">
             <span className="grid size-10 place-items-center rounded-full bg-flame text-ink sm:size-12">

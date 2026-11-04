@@ -3,7 +3,9 @@ import { GithubIcon, LinkedinIcon, WhatsappIcon } from "@/components/brand/Brand
 import { ContactForm } from "@/components/contact/ContactForm";
 import { ContactStamp } from "@/components/contact/ContactStamp";
 import { CopyEmailButton } from "@/components/contact/CopyEmailButton";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { LineReveal } from "@/components/ui/LineReveal";
+import { Magnetic } from "@/components/ui/Magnetic";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { siteConfig } from "@/config/site";
@@ -15,6 +17,8 @@ const stripProtocol = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").r
 export async function Contact() {
   const { locale, t } = await getI18n();
   const { contact } = siteConfig;
+  // WhatsApp chat with the booking request already typed, in the page's language.
+  const bookCallHref = contact.whatsapp ? `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(t.contact.bookCallMessage)}` : "";
 
   const channels = [
     contact.email && { label: t.contact.channels.email, value: contact.email, href: `mailto:${contact.email}`, Icon: Mail, external: false },
@@ -31,7 +35,7 @@ export async function Contact() {
   ].filter((c): c is Exclude<typeof c, "" | false> => Boolean(c));
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative isolate overflow-hidden pt-24 pb-28 sm:pt-32 lg:pt-40 lg:pb-40">
+    <section id="contact" aria-labelledby="contact-title" className="relative isolate overflow-hidden pt-20 pb-24 sm:pt-24 lg:pt-28 lg:pb-32">
       {/* Atmosphere: a warm horizon rising from below, with orbit lines */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -bottom-[45vmax] left-1/2 size-[110vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(171_40_0/0.55),rgb(171_40_0/0.18)_55%,transparent)]" />
@@ -48,13 +52,26 @@ export async function Contact() {
           id="contact-title"
           lines={t.contact.titleLines}
           lineClasses={["", "sm:ps-[6vw]", "sm:ps-[12vw]"]}
-          className="mt-12 font-display text-[clamp(2.75rem,8.2vw,9.5rem)] leading-display font-semibold text-cream"
+          className="mt-8 font-display text-[clamp(2.75rem,7.4vw,8rem)] leading-display font-semibold text-cream lg:mt-10"
         />
-        <Reveal delay={0.2}>
-          <p className="mt-10 max-w-xl text-xl leading-relaxed text-sand sm:ms-[12vw]">{t.contact.lead}</p>
+        <Reveal delay={0.2} className="sm:ms-[12vw]">
+          <p className="mt-8 max-w-xl text-xl leading-relaxed text-sand">{t.contact.lead}</p>
+          {bookCallHref && (
+            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Magnetic>
+                <ButtonLink href={bookCallHref} icon="external">
+                  <span className="flex items-center gap-2.5">
+                    <WhatsappIcon size={18} />
+                    {t.contact.bookCall}
+                  </span>
+                </ButtonLink>
+              </Magnetic>
+              <p className="text-sm text-dust">{t.contact.bookCallHint}</p>
+            </div>
+          )}
         </Reveal>
 
-        <div className="mt-20 grid gap-14 lg:mt-28 lg:grid-cols-12 lg:gap-12">
+        <div className="mt-16 grid gap-14 lg:mt-24 lg:grid-cols-12 lg:gap-12">
           <Reveal className="lg:col-span-5">
             <h3 className="font-display text-2xl font-semibold text-cream">{t.contact.direct}</h3>
             <ul className="mt-6 border-t border-cream/10">

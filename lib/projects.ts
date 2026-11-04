@@ -1,4 +1,10 @@
-import { projects, type Project } from "@/data/projects";
+import { projects, type Industry, type Project } from "@/data/projects";
+import { INDUSTRIES } from "@/lib/project-helpers";
+
+// Pure helpers live in project-helpers.ts so Client Components can use them
+// without bundling the project data; re-exported here for convenience.
+export { groupProjects, screenshotAlt } from "@/lib/project-helpers";
+export { pad } from "@/lib/pad";
 
 /** All projects in display order. Fails the build on a duplicate slug. */
 export function getProjects(): Project[] {
@@ -8,17 +14,6 @@ export function getProjects(): Project[] {
     seen.add(project.slug);
   }
   return [...projects].sort((a, b) => a.displayOrder - b.displayOrder);
-}
-
-/**
- * Splits the list for the editorial layout: featured projects get the large
- * alternating rows, the rest the offset grid. With nothing marked featured,
- * the first project leads so the section never opens on small cards.
- */
-export function groupProjects(list: Project[]): { featured: Project[]; rest: Project[] } {
-  const featured = list.filter((p) => p.featured);
-  if (featured.length === 0 && list.length > 0) return { featured: [list[0]], rest: list.slice(1) };
-  return { featured, rest: list.filter((p) => !p.featured) };
 }
 
 export function getProjectBySlug(slug: string): Project | undefined {
@@ -36,7 +31,7 @@ export function getProjectContext(slug: string): { index: number; total: number;
   };
 }
 
-/** "01", "02", … */
-export function pad(n: number): string {
-  return String(n).padStart(2, "0");
+/** Industries in filter order, keeping only those some project belongs to. */
+export function getIndustries(list: Project[] = getProjects()): Industry[] {
+  return INDUSTRIES.filter((industry) => list.some((p) => p.industry === industry));
 }

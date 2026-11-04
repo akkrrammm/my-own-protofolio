@@ -18,21 +18,21 @@ export async function About() {
   const firstName = pick(siteConfig.firstName, locale);
 
   return (
-    <section id="about" aria-labelledby="about-title" className="relative isolate py-24 sm:py-32 lg:py-40">
+    <section id="about" aria-labelledby="about-title" className="relative isolate py-20 sm:py-24 lg:py-28">
       <div aria-hidden className="pointer-events-none absolute top-1/4 -end-1/4 -z-10 size-[60vmax] rounded-full bg-[radial-gradient(closest-side,rgb(171_40_0/0.18),transparent)]" />
 
       <div className="container-x">
         <SectionLabel index="01" label={t.about.label} />
 
-        <div className="mt-12 grid items-start gap-14 lg:mt-16 lg:grid-cols-12 lg:gap-10">
+        <div className="mt-8 grid items-start gap-12 lg:mt-10 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-8">
             <LineReveal
               id="about-title"
               lines={t.about.titleLines}
-              className="font-display text-[clamp(2.75rem,8vw,7.25rem)] leading-display font-semibold text-cream"
+              className="font-display text-[clamp(2.75rem,7vw,6.25rem)] leading-display font-semibold text-cream"
             />
             <Reveal delay={0.15}>
-              <p className="mt-10 max-w-[32ch] font-display text-2xl leading-snug text-cream sm:text-3xl lg:text-[2.3rem] lg:leading-[1.22]">
+              <p className="mt-8 max-w-[32ch] font-display text-2xl leading-snug text-cream sm:text-3xl lg:text-[2.3rem] lg:leading-[1.22]">
                 <Accent text={format(t.about.intro, { firstName: `{${firstName}}` })} />
               </p>
             </Reveal>
@@ -69,7 +69,7 @@ export async function About() {
         </div>
 
         {/* Background · Approach · Philosophy */}
-        <div className="mt-20 grid gap-px overflow-hidden rounded-3xl border border-cream/10 bg-cream/10 md:grid-cols-3 lg:mt-28">
+        <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-cream/10 bg-cream/10 md:grid-cols-3 lg:mt-20">
           {t.about.blocks.map((block, i) => (
             <div key={block.label} className="bg-ink">
               <Reveal delay={i * 0.08} className="h-full p-7 sm:p-9">
@@ -84,7 +84,7 @@ export async function About() {
         </div>
 
         {/* Principles */}
-        <ul className="mt-20 grid gap-10 sm:grid-cols-3 lg:mt-24 lg:gap-14">
+        <ul className="mt-16 grid gap-10 sm:grid-cols-3 lg:mt-20 lg:gap-14">
           {t.about.principles.map((principle, i) => {
             const Icon = PRINCIPLE_ICONS[i % PRINCIPLE_ICONS.length];
             return (
@@ -105,7 +105,7 @@ export async function About() {
         </ul>
 
         {/* Statement */}
-        <Reveal className="mt-28 lg:mt-40">
+        <Reveal className="mt-20 lg:mt-28">
           <figure className="relative mx-auto max-w-5xl text-center">
             <span aria-hidden className="pointer-events-none absolute -top-[0.45em] start-1/2 -translate-x-1/2 font-serif text-[9rem] leading-none text-ember/70 rtl:translate-x-1/2 sm:text-[12rem]">
               &ldquo;

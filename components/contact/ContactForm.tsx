@@ -272,7 +272,7 @@ export function ContactForm() {
 }
 
 const inputClass =
-  "peer w-full border-0 border-b border-cream/20 bg-transparent px-0 py-3 text-lg text-cream placeholder:text-dust/55 transition-colors duration-300 focus:border-cream/20 focus:outline-none focus-visible:outline-none aria-[invalid=true]:border-ember-300";
+  "peer w-full border-0 border-b border-cream/20 bg-transparent px-0 py-3 text-lg text-cream placeholder:text-dust/85 transition-colors duration-300 focus:border-cream/20 focus:outline-none focus-visible:outline-none aria-[invalid=true]:border-ember-300";
 
 function TextField({ id, label, error, input }: { id: string; label: string; error?: string; input: ReactNode }) {
   return (

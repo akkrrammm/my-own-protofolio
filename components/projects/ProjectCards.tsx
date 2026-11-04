@@ -9,7 +9,8 @@ import type { Project } from "@/data/projects";
 import { pick, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { cn } from "@/lib/cn";
-import { pad } from "@/lib/projects";
+import { pad } from "@/lib/pad";
+import { screenshotAlt } from "@/lib/project-helpers";
 
 interface CardProps {
   project: Project;
@@ -19,18 +20,19 @@ interface CardProps {
   t: Dictionary;
 }
 
-function texts(project: Project, locale: Locale) {
+function texts(project: Project, locale: Locale, t: Dictionary) {
   return {
     title: pick(project.title, locale),
     description: pick(project.description, locale),
     category: pick(project.category, locale),
     href: `/${locale}/work/${project.slug}`,
+    coverAlt: screenshotAlt(project, t.project.homepage, locale, t),
   };
 }
 
 /** Large editorial row for featured work; `reversed` mirrors the layout. */
 export function ProjectFeature({ project, index, locale, t, reversed }: CardProps & { reversed: boolean }) {
-  const { title, description, category, href } = texts(project, locale);
+  const { title, description, category, href, coverAlt } = texts(project, locale, t);
   const headingId = `project-${project.slug}-title`;
 
   return (
@@ -40,7 +42,7 @@ export function ProjectFeature({ project, index, locale, t, reversed }: CardProp
           slug={project.slug}
           href={href}
           src={project.coverImage}
-          alt={title}
+          alt={coverAlt}
           url={displayUrl(project.liveUrl, project.slug)}
           accent={project.accent}
           viewLabel={t.work.view}
@@ -88,7 +90,7 @@ export function ProjectFeature({ project, index, locale, t, reversed }: CardProp
 
 /** Smaller card for the offset grid below the featured rows. */
 export function ProjectTile({ project, index, locale, t, className }: CardProps & { className?: string }) {
-  const { title, description, category, href } = texts(project, locale);
+  const { title, description, category, href, coverAlt } = texts(project, locale, t);
   const headingId = `project-${project.slug}-title`;
 
   return (
@@ -97,7 +99,7 @@ export function ProjectTile({ project, index, locale, t, className }: CardProps 
         slug={project.slug}
         href={href}
         src={project.coverImage}
-        alt={title}
+        alt={coverAlt}
         url={displayUrl(project.liveUrl, project.slug)}
         accent={project.accent}
         viewLabel={t.work.view}

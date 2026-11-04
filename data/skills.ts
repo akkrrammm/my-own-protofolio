@@ -1,9 +1,9 @@
 /**
- * ✏️ Your toolkit — the "Skills & Technologies" section reads only this file.
+ * The toolkit — the "Skills & Technologies" section reads only this file.
  *
- * A starter list: add, remove or reorder freely. `symbol` is the one- or
- * two-letter mark drawn on the tile (periodic-table style); keep it short.
- * Category titles and descriptions live in the dictionaries (i18n/).
+ * Add, remove or reorder freely. `symbol` is the one- or two-letter mark
+ * drawn on the tile (periodic-table style); keep it short. Category titles
+ * and descriptions live in the dictionaries (i18n/).
  */
 
 export type SkillCategoryId = "frontend" | "backend" | "databases" | "tools";

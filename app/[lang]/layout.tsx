@@ -7,6 +7,7 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { siteConfig } from "@/config/site";
 import { localeSettings, locales, pick } from "@/i18n/config";
 import { getI18n } from "@/i18n/server";
+import { localeAlternates } from "@/lib/seo";
 import "../globals.css";
 
 // Latin
@@ -37,18 +38,21 @@ export async function generateMetadata(): Promise<Metadata> {
   const name = pick(siteConfig.name, locale);
   const title = `${name} — ${t.meta.title}`;
   const other = locales.filter((l) => l !== locale);
+  const image = {
+    url: siteConfig.ogImage.src,
+    width: siteConfig.ogImage.width,
+    height: siteConfig.ogImage.height,
+    alt: `${name} — ${pick(siteConfig.role, locale)}`,
+  };
 
   return {
     metadataBase: new URL(siteConfig.url),
     title: { default: title, template: `%s — ${name}` },
     description: t.meta.description,
     applicationName: name,
-    authors: [{ name }],
+    authors: [{ name, url: siteConfig.url }],
     creator: name,
-    alternates: {
-      canonical: `/${locale}`,
-      languages: { en: "/en", ar: "/ar", "x-default": "/en" },
-    },
+    alternates: localeAlternates(locale),
     openGraph: {
       type: "website",
       url: `/${locale}`,
@@ -57,8 +61,9 @@ export async function generateMetadata(): Promise<Metadata> {
       description: t.meta.description,
       locale: localeSettings[locale].ogLocale,
       alternateLocale: other.map((l) => localeSettings[l].ogLocale),
+      images: [image],
     },
-    twitter: { card: "summary_large_image", title, description: t.meta.description },
+    twitter: { card: "summary_large_image", title, description: t.meta.description, images: [image] },
     robots: { index: true, follow: true },
     formatDetection: { telephone: false, email: false, address: false },
   };
@@ -79,18 +84,35 @@ const noScriptStyles = "[data-reveal]{opacity:1!important;transform:none!importa
  */
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const { locale, t } = await getI18n();
-  const name = pick(siteConfig.name, locale);
 
-  const personJsonLd = {
+  // One graph for both languages: the person and the site they publish.
+  const person = `${siteConfig.url}/#person`;
+  const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name,
-    jobTitle: pick(siteConfig.role, locale),
-    url: `${siteConfig.url}/${locale}`,
-    image: `${siteConfig.url}${siteConfig.portrait.src}`,
-    ...(siteConfig.contact.email ? { email: `mailto:${siteConfig.contact.email}` } : {}),
-    ...(siteConfig.contact.phone ? { telephone: siteConfig.contact.phone } : {}),
-    sameAs: [siteConfig.contact.github, siteConfig.contact.linkedin].filter(Boolean),
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": person,
+        name: siteConfig.name.en,
+        alternateName: siteConfig.name.ar,
+        jobTitle: siteConfig.role.en,
+        url: siteConfig.url,
+        image: `${siteConfig.url}${siteConfig.portrait.src}`,
+        knowsLanguage: ["ar", "en"],
+        ...(siteConfig.contact.email ? { email: `mailto:${siteConfig.contact.email}` } : {}),
+        ...(siteConfig.contact.phone ? { telephone: siteConfig.contact.phone } : {}),
+        sameAs: [siteConfig.contact.linkedin, siteConfig.contact.github].filter(Boolean),
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteConfig.url}/#website`,
+        name: siteConfig.name.en,
+        url: siteConfig.url,
+        inLanguage: ["en", "ar"],
+        author: { "@id": person },
+        publisher: { "@id": person },
+      },
+    ],
   };
 
   return (
@@ -113,7 +135,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
             <Footer />
           </MotionProvider>
         </I18nProvider>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       </body>
     </html>
   );
