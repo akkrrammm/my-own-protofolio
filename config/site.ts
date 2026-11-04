@@ -13,7 +13,7 @@ export const siteConfig = {
    * NEXT_PUBLIC_SITE_URL (e.g. in Vercel's environment variables) — nothing
    * else needs to change.
    */
-  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://my-own-protofolio.vercel.app").replace(/\/+$/, ""),
+  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://akram-tanany-portfolio.vercel.app").replace(/\/+$/, ""),
 
   /** Social card for every page except project pages (which use their cover). 1200 × 630. */
   ogImage: { src: "/og-image.png", width: 1200, height: 630 },
