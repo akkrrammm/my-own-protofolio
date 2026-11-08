@@ -16,6 +16,7 @@ npm run typecheck
 | --- | --- |
 | Name, role, email, WhatsApp, phone, LinkedIn, GitHub, availability, portrait | `config/site.ts` |
 | Site URL (canonical, hreflang, sitemap, robots, JSON-LD) | `NEXT_PUBLIC_SITE_URL` — defaults to `https://akram-tanany-portfolio.vercel.app` |
+| Logo: the "A" mark (header, footer, menu, favicons, app icons), the full logo (Contact) and the wide banner (footer, 404) | `public/brand/`, `app/icon1.png`, `app/icon2.png`, `app/apple-icon.png` — paths in `config/site.ts` → `brand` |
 | Social card (Open Graph / Twitter), 1200×630 | `public/og-image.jpg` — replace the file to change it (keep it under 300 KB for WhatsApp) |
 | Projects (Selected Works + case-study pages + sitemap) | `data/projects.ts` |
 | Skills & technologies | `data/skills.ts` |

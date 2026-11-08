@@ -25,8 +25,16 @@ export const siteConfig = {
   name: { en: "Akram Ayman", ar: "أكرم أيمن" } satisfies Localized,
   firstName: { en: "Akram", ar: "أكرم" } satisfies Localized,
   role: { en: "Web Developer", ar: "مطوّر ويب" } satisfies Localized,
-  /** Letters drawn in the logo mark. */
-  monogram: "AA",
+  /**
+   * Logo files (public/brand). `mark` is the "A" emblem cut from the full
+   * logo; it is also the favicon and app icon (app/icon1.png, app/icon2.png,
+   * app/apple-icon.png, public/brand/icon-*.png).
+   */
+  brand: {
+    mark: "/brand/logo-mark.png",
+    lockup: { src: "/brand/logo-lockup.jpg", width: 1000, height: 943 },
+    banner: { src: "/brand/banner.jpg", width: 1536, height: 1024 },
+  },
 
   /** Drives the hero availability indicator. */
   availableForWork: true,

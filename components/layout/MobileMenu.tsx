@@ -4,7 +4,7 @@ import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from "@/components/brand/BrandIcons";
-import { Monogram } from "@/components/brand/Monogram";
+import { LogoMark } from "@/components/brand/LogoMark";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { NAV_ITEMS, navHref, navLabel, type NavId } from "@/components/layout/nav";
@@ -97,7 +97,7 @@ export function MobileMenu({
           </div>
 
           <div className="container-x flex items-center justify-between pt-5">
-            <Monogram className="size-10" />
+            <LogoMark className="size-10" />
             <button
               ref={closeButton}
               type="button"

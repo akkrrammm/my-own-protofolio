@@ -1,4 +1,5 @@
 import { ArrowUpRight, Mail, Phone } from "lucide-react";
+import Image from "next/image";
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from "@/components/brand/BrandIcons";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { ContactStamp } from "@/components/contact/ContactStamp";
@@ -17,6 +18,7 @@ const stripProtocol = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").r
 export async function Contact() {
   const { locale, t } = await getI18n();
   const { contact } = siteConfig;
+  const { lockup } = siteConfig.brand;
   // WhatsApp chat with the booking request already typed, in the page's language.
   const bookCallHref = contact.whatsapp ? `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(t.contact.bookCallMessage)}` : "";
 
@@ -35,7 +37,7 @@ export async function Contact() {
   ].filter((c): c is Exclude<typeof c, "" | false> => Boolean(c));
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative isolate overflow-hidden pt-20 pb-24 sm:pt-24 lg:pt-28 lg:pb-32">
+    <section id="contact" aria-labelledby="contact-title" className="relative isolate overflow-hidden bg-ink pt-20 pb-24 sm:pt-24 lg:pt-28 lg:pb-32">
       {/* Atmosphere: a warm horizon rising from below, with orbit lines */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -bottom-[45vmax] left-1/2 size-[110vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(171_40_0/0.55),rgb(171_40_0/0.18)_55%,transparent)]" />
@@ -48,28 +50,51 @@ export async function Contact() {
       <div className="container-x">
         <SectionLabel index="05" label={t.contact.label} />
 
-        <LineReveal
-          id="contact-title"
-          lines={t.contact.titleLines}
-          lineClasses={["", "sm:ps-[6vw]", "sm:ps-[12vw]"]}
-          className="mt-8 font-display text-[clamp(2.75rem,7.4vw,8rem)] leading-display font-semibold text-cream lg:mt-10"
-        />
-        <Reveal delay={0.2} className="sm:ms-[12vw]">
-          <p className="mt-8 max-w-xl text-xl leading-relaxed text-sand">{t.contact.lead}</p>
-          {bookCallHref && (
-            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
-              <Magnetic>
-                <ButtonLink href={bookCallHref} icon="external">
-                  <span className="flex items-center gap-2.5">
-                    <WhatsappIcon size={18} />
-                    {t.contact.bookCall}
-                  </span>
-                </ButtonLink>
-              </Magnetic>
-              <p className="text-sm text-dust">{t.contact.bookCallHint}</p>
-            </div>
-          )}
-        </Reveal>
+        <div className="relative">
+          {/*
+            The full logo fills the empty corner beside the staggered headline
+            (desktop). `lighten` drops its black ground into the section's
+            background (bg-ink: the section is an isolated group, so the blend
+            only sees what the section paints); the mask fades its corners.
+            The blend sits on this untransformed wrapper so the reveal
+            animation can't isolate it.
+          */}
+          <div aria-hidden className="pointer-events-none absolute inset-y-0 end-0 hidden w-[clamp(15rem,24vw,23rem)] items-center mix-blend-lighten lg:flex">
+            <Reveal delay={0.3} y={40} className="w-full">
+              <Image
+                src={lockup.src}
+                width={lockup.width}
+                height={lockup.height}
+                alt=""
+                sizes="(min-width: 1024px) 24vw, 1px"
+                className="block h-auto w-full [mask-image:radial-gradient(closest-side,#000_72%,transparent)]"
+              />
+            </Reveal>
+          </div>
+
+          <LineReveal
+            id="contact-title"
+            lines={t.contact.titleLines}
+            lineClasses={["", "sm:ps-[6vw]", "sm:ps-[12vw]"]}
+            className="mt-8 font-display text-[clamp(2.75rem,7.4vw,8rem)] leading-display font-semibold text-cream lg:mt-10"
+          />
+          <Reveal delay={0.2} className="sm:ms-[12vw]">
+            <p className="mt-8 max-w-xl text-xl leading-relaxed text-sand">{t.contact.lead}</p>
+            {bookCallHref && (
+              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+                <Magnetic>
+                  <ButtonLink href={bookCallHref} icon="external">
+                    <span className="flex items-center gap-2.5">
+                      <WhatsappIcon size={18} />
+                      {t.contact.bookCall}
+                    </span>
+                  </ButtonLink>
+                </Magnetic>
+                <p className="text-sm text-dust">{t.contact.bookCallHint}</p>
+              </div>
+            )}
+          </Reveal>
+        </div>
 
         <div className="mt-16 grid gap-14 lg:mt-24 lg:grid-cols-12 lg:gap-12">
           <Reveal className="lg:col-span-5">

@@ -4,7 +4,7 @@ import { m, useMotionValueEvent, useScroll } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Monogram } from "@/components/brand/Monogram";
+import { LogoMark } from "@/components/brand/LogoMark";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { MobileMenu } from "@/components/layout/MobileMenu";
@@ -84,7 +84,7 @@ export function Header() {
               className="group flex items-center gap-3 rounded-full pe-2"
               aria-label={`${name} — ${t.nav.home}`}
             >
-              <Monogram className="size-10 transition-transform duration-700 ease-expo group-hover:rotate-[-8deg]" />
+              <LogoMark eager className="size-10 transition-transform duration-700 ease-expo group-hover:rotate-[-8deg]" />
               <span className="hidden flex-col leading-tight sm:flex">
                 <span className="font-display text-[0.95rem] font-semibold tracking-tight text-cream">{name}</span>
                 <span className="font-mono text-[0.65rem] tracking-[0.16em] text-dust uppercase">{pick(siteConfig.role, locale)}</span>

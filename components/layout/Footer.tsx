@@ -1,6 +1,7 @@
 import { ArrowUp } from "lucide-react";
+import Image from "next/image";
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from "@/components/brand/BrandIcons";
-import { Monogram } from "@/components/brand/Monogram";
+import { LogoMark } from "@/components/brand/LogoMark";
 import { NAV_ITEMS, navLabel } from "@/components/layout/nav";
 import { siteConfig } from "@/config/site";
 import { pick } from "@/i18n/config";
@@ -11,6 +12,7 @@ export async function Footer() {
   const name = pick(siteConfig.name, locale);
   const firstName = pick(siteConfig.firstName, locale);
   const { contact } = siteConfig;
+  const { banner } = siteConfig.brand;
   const year = new Date().getFullYear();
 
   const socials = [
@@ -28,10 +30,21 @@ export async function Footer() {
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
             <a href={`/${locale}`} className="inline-flex items-center gap-3" aria-label={name}>
-              <Monogram className="size-12" />
+              <LogoMark className="size-12" />
               <span className="font-display text-xl font-semibold text-cream">{name}</span>
             </a>
             <p className="mt-6 max-w-xs font-serif text-2xl leading-snug text-sand italic">{t.footer.statement}</p>
+            {/* The wide logo banner, filling the column beside the menu. */}
+            <div className="mt-8 max-w-[20rem] overflow-hidden rounded-2xl border border-flame/15 shadow-[0_30px_70px_-35px_rgb(0_0_0/0.9),0_0_60px_-30px_rgb(171_40_0/0.7)]">
+              <Image
+                src={banner.src}
+                width={banner.width}
+                height={banner.height}
+                alt=""
+                sizes="20rem"
+                className="block h-auto w-full"
+              />
+            </div>
           </div>
 
           <nav aria-label={t.footer.navLabel} className="md:col-span-3">
