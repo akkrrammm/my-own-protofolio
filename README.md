@@ -1,4 +1,4 @@
-# Akram Ayman — Portfolio
+# Akram Tanany — Portfolio
 
 Bilingual (English / Arabic RTL) developer portfolio built with Next.js 16, React 19, Tailwind CSS 4 and Motion.
 

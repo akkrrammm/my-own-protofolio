@@ -22,7 +22,7 @@ export const siteConfig = {
    */
   ogImage: { src: "/og-image.jpg", width: 1200, height: 630, type: "image/jpeg" },
 
-  name: { en: "Akram Ayman", ar: "أكرم أيمن" } satisfies Localized,
+  name: { en: "Akram Tanany", ar: "أكرم الطناني" } satisfies Localized,
   firstName: { en: "Akram", ar: "أكرم" } satisfies Localized,
   role: { en: "Web Developer", ar: "مطوّر ويب" } satisfies Localized,
   /**
